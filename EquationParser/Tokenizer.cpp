@@ -25,13 +25,18 @@ vector<Token> Tokenizer::parse(string data)
 			}
 			break;
 
-		case '+': case '-': case '=': case '*': case '/':
+		case '+': case '-': case '=': case '*': case '/': case '(': case ')':
 			switch (currentToken.mType) {
 			case UNDEFINED:
 				currentToken.mText.append(1, ch);
 				currentToken.mType = OPERATOR;
 				break;
 			case NUMBER:
+				endToken(tokens, currentToken);
+				currentToken.mText.append(1, ch);
+				currentToken.mType = OPERATOR;
+				break;
+			case OPERATOR:
 				endToken(tokens, currentToken);
 				currentToken.mText.append(1, ch);
 				currentToken.mType = OPERATOR;
