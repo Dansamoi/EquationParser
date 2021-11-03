@@ -7,6 +7,7 @@ int main(void) {
 	getline(cin, equation);
 	vector<Token> tokens = Tokenizer::parse(equation);
 
+	//printing the tokens
 	for (auto token : tokens) {
 		token.debugPrint();
 	}

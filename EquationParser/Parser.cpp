@@ -2,6 +2,9 @@
 
 void Parser::parse(vector<Token>& tokens)
 {
+	/*
+		parsing base data
+	*/
 	vector<Token>::iterator mEndToken = tokens.end();
 	vector<Token>::iterator mCurrentToken = tokens.begin();
 
@@ -28,6 +31,10 @@ void Parser::parse(vector<Token>& tokens)
 
 void Parser::parseBrackets(vector<Token>& tokens, vector<Token>::iterator begin)
 {
+	/*
+		parsing data inside brackets
+	*/
+	vector<Token>::iterator localBegin = begin;
 	vector<Token>::iterator mEndToken = tokens.end();
 	vector<Token>::iterator mCurrentToken = begin;
 
@@ -37,20 +44,23 @@ void Parser::parseBrackets(vector<Token>& tokens, vector<Token>::iterator begin)
 			{
 				mCurrentToken--;
 				tokens.erase(mCurrentToken + 1);
-				parseBrackets(tokens, mCurrentToken);
+				parseBrackets(tokens, mCurrentToken + 1);
 				mEndToken = tokens.end();
 			}
 		}
 		mCurrentToken++;
 	}
 
-	parseMD(tokens, begin);
-	parsePM(tokens, begin);
+	parseMD(tokens, localBegin);
+	parsePM(tokens, localBegin);
 	return;
 }
 
 void Parser::parsePM(vector<Token>& tokens, vector<Token>::iterator begin)
 {
+	/*
+		plus minus control
+	*/
 	vector<Token>::iterator mCurrentToken = begin;
 
 	double result;
@@ -92,6 +102,9 @@ void Parser::parsePM(vector<Token>& tokens, vector<Token>::iterator begin)
 
 void Parser::parseMD(vector<Token>& tokens, vector<Token>::iterator begin)
 {
+	/*
+		multiplication\division control
+	*/
 	vector<Token>::iterator mCurrentToken = begin;
 
 	double result;
