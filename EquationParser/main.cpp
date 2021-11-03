@@ -3,7 +3,10 @@
 #include "Parser.h"
 
 int main(void) {
+	//main menu
+
 	string equation;
+	cout << "Enter an equation:" << endl;
 	getline(cin, equation);
 	vector<Token> tokens = Tokenizer::parse(equation);
 
@@ -13,6 +16,7 @@ int main(void) {
 	}
 
 	Parser::parse(tokens);
+	cout << "The result is:" << endl;
 	cout << tokens[0].mText;
 	return 0;
 }

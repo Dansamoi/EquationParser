@@ -74,8 +74,8 @@ void Parser::parsePM(vector<Token>& tokens, vector<Token>::iterator begin)
 				result = resultOf(mCurrentToken);
 				mCurrentToken--;
 				mCurrentToken->mText = to_string(result);
-				tokens.erase(mCurrentToken + 1);
 				tokens.erase(mCurrentToken + 2);
+				tokens.erase(mCurrentToken + 1);
 				break;
 			}
 		}
@@ -103,8 +103,8 @@ void Parser::parseMD(vector<Token>& tokens, vector<Token>::iterator begin)
 				result = resultOf(mCurrentToken);
 				mCurrentToken--;
 				mCurrentToken->mText = to_string(result);
-				tokens.erase(mCurrentToken + 1);
 				tokens.erase(mCurrentToken + 2);
+				tokens.erase(mCurrentToken + 1);
 				break;
 			}
 		}
