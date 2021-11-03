@@ -8,5 +8,6 @@ public:
 	static void parseBrackets(vector<Token>& tokens, vector<Token>::iterator begin);
 	static void parsePM(vector<Token>& tokens, vector<Token>::iterator begin);
 	static void parseMD(vector<Token>& tokens, vector<Token>::iterator begin);
+	static double resultOf(vector<Token>::iterator op);
 };
 

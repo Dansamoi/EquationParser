@@ -70,26 +70,13 @@ void Parser::parsePM(vector<Token>& tokens, vector<Token>::iterator begin)
 		if (mCurrentToken->mType == OPERATOR) {
 			switch (mCurrentToken->mText[0])
 			{
-			case '+':
-				result = stod((mCurrentToken - 1)->mText) + stod((mCurrentToken + 1)->mText);
+			case '+': case '-':
+				result = resultOf(mCurrentToken);
 				mCurrentToken--;
 				mCurrentToken->mText = to_string(result);
-				needRemove = 1;
-				break;
-			case '-':
-				result = stod((mCurrentToken - 1)->mText) - stod((mCurrentToken + 1)->mText);
-				mCurrentToken--;
-				mCurrentToken->mText = to_string(result);
-				needRemove = 1;
-				break;
-			default:
-				break;
-			}
-			if (needRemove) {
-				tokens.erase(mCurrentToken + 2);
 				tokens.erase(mCurrentToken + 1);
-				needRemove = 0;
-				//mEndToken -= 2;
+				tokens.erase(mCurrentToken + 2);
+				break;
 			}
 		}
 		mCurrentToken++;
@@ -106,37 +93,50 @@ void Parser::parseMD(vector<Token>& tokens, vector<Token>::iterator begin)
 		multiplication\division control
 	*/
 	vector<Token>::iterator mCurrentToken = begin;
-
 	double result;
-	bool needRemove = 0;
 
 	while (mCurrentToken != tokens.end() && mCurrentToken->mText[0] != ')') {
 		if (mCurrentToken->mType == OPERATOR) {
 			switch (mCurrentToken->mText[0])
 			{
-			case '*':
-				result = stod((mCurrentToken - 1)->mText) * stod((mCurrentToken + 1)->mText);
+			case '*': case '/':
+				result = resultOf(mCurrentToken);
 				mCurrentToken--;
 				mCurrentToken->mText = to_string(result);
-				needRemove = 1;
-				break;
-			case '/':
-				result = stod((mCurrentToken - 1)->mText) / stod((mCurrentToken + 1)->mText);
-				mCurrentToken--;
-				mCurrentToken->mText = to_string(result);
-				needRemove = 1;
-				break;
-			default:
-				break;
-			}
-			if (needRemove) {
-				tokens.erase(mCurrentToken + 2);
 				tokens.erase(mCurrentToken + 1);
-				needRemove = 0;
+				tokens.erase(mCurrentToken + 2);
+				break;
 			}
 		}
 		mCurrentToken++;
 	}
 
 	return;
+}
+
+double Parser::resultOf(vector<Token>::iterator op)
+{
+	/*
+		returns the result of the mathematical expression acording to the sign(operator)
+	*/
+	double result, first = stod((op - 1)->mText), second = stod((op + 1)->mText);
+	switch (op->mText[0])
+	{
+	case '+':
+		result = first + second;
+		break;
+	case '-':
+		result = first - second;
+		break;
+	case '*':
+		result = first * second;
+		break;
+	case '/':
+		result = first / second;
+		break;
+	default:
+		result = 0;
+		break;
+	}
+	return result;
 }
